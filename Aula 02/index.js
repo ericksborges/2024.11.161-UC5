@@ -48,7 +48,6 @@ app.post("/produtos/cadastrar", (requisicao, resposta) => {
 app.patch("/produtos/atualizar/:id", (requisicao, resposta) => {
   try {
     const { novoNome, novoPreco, novaDescricao } = requisicao.body;
-    // 1
     const id = parseInt(requisicao.params.id);
     const produto = produtos.find((produto) => produto.id === id);
     if (!produto) {
