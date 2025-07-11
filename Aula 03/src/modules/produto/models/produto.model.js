@@ -14,18 +14,22 @@ class ProdutoModel {
   }
   static atualizar(id, novoNome, novoPreco, novaDescricao) {
     const produto = produtos.find((produto) => produto.id === id);
+    if (!produto) {
+      return null; // Produto não encontrado
+    }
     produto.nome = novoNome || produto.nome;
     produto.preco = novoPreco || produto.preco;
     produto.descricao = novaDescricao || produto.descricao;
-    return produto
+    return produto;
   }
   static deletarPorId(id) {
     const index = produtos.findIndex(produto => produto.id === id)
     if(index === -1){
         return null
     }
+    const produtoExcluido = produtos[index]; // Captura o produto antes de excluir
     produtos.splice(index, 1)
-    return true
+    return produtoExcluido; // Retorna o produto excluído
   }
   static deletarTodos() {
     produtos.length = 0;
