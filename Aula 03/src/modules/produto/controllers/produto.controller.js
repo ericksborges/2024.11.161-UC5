@@ -1,3 +1,4 @@
+import client from "../../../config/database.js"
 import ProdutoModel from "../models/produto.model.js";
 
 class ProdutoController {
