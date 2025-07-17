@@ -3,15 +3,15 @@ import ProdutoModel from "../models/produto.model.js";
 
 class ProdutoController {
   // Cadastra um novo produto
-  static cadastrar(requisicao, resposta) {
+  static async cadastrar(requisicao, resposta) {
     try {
-      const { id, nome, preco, descricao } = requisicao.body;
-      if (!id || !nome || !preco || !descricao) {
+      const { nome, preco, descricao } = requisicao.body;
+      if (!nome || !preco || !descricao) {
         return resposta
           .status(400)
           .json({ mensagem: "Todos os campos são obrigatorios!" });
       }
-      ProdutoModel.cadastrar(id, nome, preco, descricao);
+      ProdutoModel.cadastrar(nome, preco, descricao);
       resposta.status(201).json({ mensagem: "Produto criado com sucesso!" });
     } catch (error) {
       resposta.status(500).json({
@@ -22,7 +22,7 @@ class ProdutoController {
   }
 
   // Lista todos os produtos
-  static listarTodos(requisicao, resposta) {
+  static async listarTodos(requisicao, resposta) {
     try {
       const produtos = ProdutoModel.listarTodos();
       if (produtos.length === 0) {
@@ -38,7 +38,7 @@ class ProdutoController {
   }
 
   // Lista um produto pelo ID
-  static listarPorId(requisicao, resposta) {
+  static async listarPorId(requisicao, resposta) {
     try {
       const id = parseInt(requisicao.params.id);
       const produto = ProdutoModel.listarPorId(id);
@@ -57,7 +57,7 @@ class ProdutoController {
   }
 
   // Atualiza um produto pelo ID
-  static atualizar(requisicao, resposta) {
+  static async atualizar(requisicao, resposta) {
     try {
       const { novoNome, novoPreco, novaDescricao } = requisicao.body;
       const id = parseInt(requisicao.params.id);
@@ -77,7 +77,7 @@ class ProdutoController {
   }
 
   // Deleta um produto pelo ID
-  static deletarPorId(requisicao, resposta) {
+  static async deletarPorId(requisicao, resposta) {
     try {
       const id = parseInt(requisicao.params.id);
       const produto = ProdutoModel.deletarPorId(id); 
@@ -99,7 +99,7 @@ class ProdutoController {
   }
 
   // Deleta todos os produtos
-  static deletarTodos(requisicao, resposta) {
+  static async deletarTodos(requisicao, resposta) {
     try {
       ProdutoModel.deletarTodos();
       resposta
