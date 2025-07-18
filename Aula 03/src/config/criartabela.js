@@ -3,11 +3,12 @@ dotenv.config()
 import client from './database.js'
 import ProdutoModel from '../modules/produto/models/produto.model.js'
 
-class criarTabela {
-    static async produto (){
-        const consulta = `create table if not exists produto(id serial
-        nome vachar(100) not null, 
-        preco numeric (10,2) not null
+class CriarTabela {
+    static async produto(){
+        const consulta = `create table if not exists produto(
+        id serial primary key,
+        nome varchar(100) not null, 
+        preco numeric (10,2) not null,
         descricao TEXT NOT NULL
     )`;
     try{
@@ -19,6 +20,6 @@ class criarTabela {
     
     }
    }
-ProdutoModel.produto()
+CriarTabela.produto()
 
-export default criarTabela
+export default CriarTabela

@@ -1,4 +1,3 @@
-import client from "../../../config/database.js"
 import ProdutoModel from "../models/produto.model.js";
 
 class ProdutoController {
@@ -11,7 +10,7 @@ class ProdutoController {
           .status(400)
           .json({ mensagem: "Todos os campos são obrigatorios!" });
       }
-      ProdutoModel.cadastrar(nome, preco, descricao);
+      await ProdutoModel.cadastrar(nome, preco, descricao);
       resposta.status(201).json({ mensagem: "Produto criado com sucesso!" });
     } catch (error) {
       resposta.status(500).json({
@@ -24,7 +23,7 @@ class ProdutoController {
   // Lista todos os produtos
   static async listarTodos(requisicao, resposta) {
     try {
-      const produtos = ProdutoModel.listarTodos();
+      const produtos = await ProdutoModel.listarTodos();
       if (produtos.length === 0) {
         return resposta.status(200).json({ mensagem: "Banco de dados vazio!" });
       }
@@ -41,7 +40,7 @@ class ProdutoController {
   static async listarPorId(requisicao, resposta) {
     try {
       const id = parseInt(requisicao.params.id);
-      const produto = ProdutoModel.listarPorId(id);
+      const produto = await ProdutoModel.listarPorId(id);
       if (!produto) {
         return resposta
           .status(404)
@@ -61,7 +60,7 @@ class ProdutoController {
     try {
       const { novoNome, novoPreco, novaDescricao } = requisicao.body;
       const id = parseInt(requisicao.params.id);
-      const produto = ProdutoModel.atualizar(id, novoNome, novoPreco, novaDescricao);
+      const produto = await ProdutoModel.atualizar(id, novoNome, novoPreco, novaDescricao);
       if (!produto) {
         return resposta
           .status(404)
@@ -80,7 +79,7 @@ class ProdutoController {
   static async deletarPorId(requisicao, resposta) {
     try {
       const id = parseInt(requisicao.params.id);
-      const produto = ProdutoModel.deletarPorId(id); 
+      const produto = await ProdutoModel.deletarPorId(id); 
       if (produto === null) {
         return resposta
           .status(404)
@@ -101,7 +100,7 @@ class ProdutoController {
   // Deleta todos os produtos
   static async deletarTodos(requisicao, resposta) {
     try {
-      ProdutoModel.deletarTodos();
+      await ProdutoModel.deletarTodos();
       resposta
         .status(200)
         .json({ mensagem: "Todos os produtos foram deletados!" });

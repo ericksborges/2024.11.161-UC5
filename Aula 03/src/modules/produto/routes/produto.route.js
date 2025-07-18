@@ -4,10 +4,10 @@ import ProdutoController from "../controllers/produto.controller.js";
 const router = express.Router();
 
 // Listar todos os produtos
-router.get("/produtos", ProdutoController.listarTodos);
+router.get("/produto", ProdutoController.listarTodos);
 
 // Listar produto por id
-router.get("/produtos/:id", ProdutoController.listarPorId);
+router.get("/produto/:id", ProdutoController.listarPorId);
 
 // Cadastrar um produto
 router.post("/produto/cadastrar", ProdutoController.cadastrar);
@@ -19,6 +19,6 @@ router.patch("/produto/atualizar/:id", ProdutoController.atualizar);
 router.delete("/produto/deletar/:id", ProdutoController.deletarPorId);
 
 // Deletar todos os produtos
-router.delete("/produtos/deletar/*", ProdutoController.deletarTodos);
+router.delete("/produto/deletar", ProdutoController.deletarTodos);
 
 export default router;

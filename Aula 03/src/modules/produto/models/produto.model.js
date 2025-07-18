@@ -1,13 +1,14 @@
-import produtos from "../../../config/database.js";
+import client from "../../../config/database.js";
 
 class ProdutoModel {
   static async cadastrar(nome, preco, descricao) {
-   const dados = [id, nome, preco, descricao];
+   const dados = [nome, preco, descricao];
    const consulta = `insert into produto(nome, preco, descricao) values ($1, $2, $3) returning*;`
    const resultado = await client.query(consulta, dados)
+   return resultado.rows
   }
   static async listarTodos() {
-    const consulta = `select * from produtos`
+    const consulta = `select * from produto`
     const resultado = await client.query(consulta)
     return resultado.rows
   }
@@ -17,21 +18,27 @@ class ProdutoModel {
    const resultado = await client.query(consulta, dados)
    return resultado.rows
   }
-  static async atualizar(novoNome, novoPreco, novaDescricao) {
-    const dados = [novoNome, novoPreco, novaDescricao]
-    const consulta = `update produto set nome_produto = $1 where id = $2 returning *`
+  static async atualizar(id, nome, preco, descricao) {
+    const dados = [nome, preco, descricao]
+    const consulta = `
+    update produto
+    set nome = coalesce($1, nome),
+    preco = coalesce($2, preco),
+    descricao = coalesce($3, descricao)
+    where id = $4 returning*;
+    `;
     const resultado = await client.query(consulta, dados)
-    return resultado
+    return resultado.rows;
     
   }
   static async deletarPorId(id) {
     const dados = [id]
     const consulta = `delete from produto where id = $1`
-    return client.query(consulta, dados)
+      await client.query(consulta, dados)
   }
   static async deletarTodos() {
   const consulta = `delete from produto`
-  return client.query(consulta, dados)
+  return client.query(consulta)
   }
 }
 

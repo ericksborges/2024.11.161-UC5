@@ -1,6 +1,6 @@
 import dotenv from 'dotenv'
 import pg from 'pg'
-const { Poll } = pg
+const { Pool } = pg
 dotenv.config()
 const client = new Pool ({
     user: process.env.DB_USER ,
